@@ -26,6 +26,7 @@
 /* Begin PBXFileReference section */
 		062C48D227575AB800561B51 /* fact.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = fact.cpp; sourceTree = "<group>"; };
 		062C48D327575AB800561B51 /* fact.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = fact.hpp; sourceTree = "<group>"; };
+		062C48D52759041100561B51 /* .gitignore.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = .gitignore.md; sourceTree = "<group>"; };
 		06402E6027192D81004D73E1 /* primer_study */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = primer_study; sourceTree = BUILT_PRODUCTS_DIR; };
 		06402E6327192D81004D73E1 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		06402E6A27214A0B004D73E1 /* sale_data.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = sale_data.h; sourceTree = "<group>"; };
@@ -45,6 +46,7 @@
 		06402E5727192D81004D73E1 = {
 			isa = PBXGroup;
 			children = (
+				062C48D52759041100561B51 /* .gitignore.md */,
 				06402E6227192D81004D73E1 /* primer_study */,
 				06402E6127192D81004D73E1 /* Products */,
 			);
