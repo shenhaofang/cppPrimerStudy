@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		062C48D427575AB800561B51 /* fact.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 062C48D227575AB800561B51 /* fact.cpp */; };
 		06402E6427192D81004D73E1 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 06402E6327192D81004D73E1 /* main.cpp */; };
 /* End PBXBuildFile section */
 
@@ -23,8 +24,11 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		062C48D227575AB800561B51 /* fact.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = fact.cpp; sourceTree = "<group>"; };
+		062C48D327575AB800561B51 /* fact.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = fact.hpp; sourceTree = "<group>"; };
 		06402E6027192D81004D73E1 /* primer_study */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = primer_study; sourceTree = BUILT_PRODUCTS_DIR; };
 		06402E6327192D81004D73E1 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		06402E6A27214A0B004D73E1 /* sale_data.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = sale_data.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +62,9 @@
 			isa = PBXGroup;
 			children = (
 				06402E6327192D81004D73E1 /* main.cpp */,
+				06402E6A27214A0B004D73E1 /* sale_data.h */,
+				062C48D227575AB800561B51 /* fact.cpp */,
+				062C48D327575AB800561B51 /* fact.hpp */,
 			);
 			path = primer_study;
 			sourceTree = "<group>";
@@ -89,7 +96,7 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastUpgradeCheck = 1300;
+				LastUpgradeCheck = 1310;
 				TargetAttributes = {
 					06402E5F27192D81004D73E1 = {
 						CreatedOnToolsVersion = 13.0;
@@ -120,6 +127,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				06402E6427192D81004D73E1 /* main.cpp in Sources */,
+				062C48D427575AB800561B51 /* fact.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -240,6 +248,7 @@
 		06402E6827192D81004D73E1 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -248,6 +257,7 @@
 		06402E6927192D81004D73E1 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
