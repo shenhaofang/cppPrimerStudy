@@ -658,6 +658,26 @@ void test626(){
     cout << "sum of 1,2,3,5,6,8,10 is " << sumInt({1,2,3,5,6,8,10}) << endl;
 }
 
+string (*fillAndReturnStrArr(string (*strsToFill)[10]))[10]{
+    for(size_t idx=0; idx < 10; ++idx){
+        (*strsToFill)[idx] = std::to_string(idx);
+    }
+    return strsToFill;
+}
+
+void test633(){
+    cout << "\n-------------------\n\ttest 6.3.3\n"
+    << "-------------------" << endl;
+    string strs[10] = {};
+    string (*strToFill)[10] = &strs;
+    auto res = fillAndReturnStrArr(strToFill);
+    cout << "strToFill :"<< endl;
+    for (size_t idx = 0; idx < 10; ++idx){
+        cout << "(*strToFill)[" << idx << "]: " << (*strToFill)[idx] << endl;
+        cout << "(*res)[" << idx << "]: "  << (*res)[idx] << endl;
+    }
+}
+
 int main(int argc, char * args[]) {
     string argStr;
     for (int i = 1; i < argc; ++i){
@@ -758,5 +778,6 @@ int main(int argc, char * args[]) {
     test623();
     test624();
     test626();
+    test633();
     return 0;
 }
