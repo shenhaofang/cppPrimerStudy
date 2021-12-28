@@ -6,12 +6,12 @@
     //
 
 #include <cstring>
+#include <initializer_list>
 #include <iostream>
 #include <vector>
-#include <initializer_list>
 
-#include "sale_data.h"
 #include "fact.hpp"
+#include "sale_data.h"
 
 using std::begin;
 using std::cin;
@@ -178,7 +178,7 @@ void test3_2_0() {
     }
     cout << "\n-------" << endl;
     for (decltype(vi.size()) i = 0; i < vi.size() - 1; ++i) {
-        cout << vi[i] + vi[i+1] << endl;
+        cout << vi[i] + vi[i + 1] << endl;
     }
     cout << "-------" << endl;
     for (decltype(vi.size()) i = 0; i <= vi.size() / 2; ++i) {
@@ -419,29 +419,26 @@ void test355() {
         *i = item;
         ++i;
     }
-//    error: No matching function for call end/begin
-//    printIntArr(b, end(b) - begin(b));
+        //    error: No matching function for call end/begin
+        //    printIntArr(b, end(b) - begin(b));
     printIntArr(b, va.size());
 }
 
-void test360(){
+void test360() {
     cout << "\n-------------------\n\ttest 3.6\n"
     << "-------------------" << endl;
-    int ia[][4] = {
-        {0,1,2,3},
-        {4,5,6,7},
-        {8,9,10,11}
-    };
-    for (const auto &row : ia){
-        for (const auto item : row){
+    int ia[][4] = {{0, 1, 2, 3}, {4, 5, 6, 7}, {8, 9, 10, 11}};
+    for (const auto &row : ia) {
+        for (const auto item : row) {
             cout << item << " ";
         }
     }
     
     cout << "\n-------------------" << endl;
-    for (size_t rowNum = 0; rowNum < end(ia) - begin(ia); ++rowNum){
-        for (decltype(end(ia[rowNum]) - begin(ia[rowNum])) colNum = 0; colNum < end(ia[rowNum]) - begin(ia[rowNum]); ++colNum){
-            if (rowNum > 0 || colNum > 0){
+    for (size_t rowNum = 0; rowNum < end(ia) - begin(ia); ++rowNum) {
+        for (decltype(end(ia[rowNum]) - begin(ia[rowNum])) colNum = 0;
+             colNum < end(ia[rowNum]) - begin(ia[rowNum]); ++colNum) {
+            if (rowNum > 0 || colNum > 0) {
                 cout << " ";
             }
             cout << ia[rowNum][colNum];
@@ -449,10 +446,10 @@ void test360(){
     }
     
     cout << "\n-------------------" << endl;
-    for (int *p = *ia; p != end(*(end(ia)-1)); ++p){
-        if (p != *ia){
+    for (int *p = *ia; p != end(*(end(ia) - 1)); ++p) {
+        if (p != *ia) {
             cout << " ";
-        }else{
+        } else {
             cout << p << "|" << ia << "|" << *ia << endl;
         }
         cout << *p;
@@ -460,16 +457,16 @@ void test360(){
     cout << endl;
 }
 
-vector<int> doubleOdd(vector<int> originInts){
-    for (auto itr = originInts.begin(); itr < originInts.end(); ++itr){
-        if (*itr % 2){
-            *itr = 2**itr;
+vector<int> doubleOdd(vector<int> originInts) {
+    for (auto itr = originInts.begin(); itr < originInts.end(); ++itr) {
+        if (*itr % 2) {
+            *itr = 2 * *itr;
         }
     }
     return originInts;
 }
 
-void test470(){
+void test470() {
     cout << "\n-------------------\n\ttest 4.7\n"
     << "-------------------" << endl;
     vector<int> a = {1, 3, 4, 5, 6, 7, 9}, b = doubleOdd(a);
@@ -477,27 +474,31 @@ void test470(){
     cout << "-------------------" << endl;
     printIntVector(b);
 }
-void test4113(){
+void test4113() {
     cout << "\n-------------------\n\ttest 4.11.3\n"
     << "-------------------" << endl;
     char c = 'c';
-    int i; double d; const string *ps; char *pc = &c; void *pv;
-    // pv = static_cast<void*>(ps); 是不行的，必须先const_cast去掉ps的cosnt属性
-    pv = static_cast<void*>(const_cast<string*>(ps));
+    int i;
+    double d;
+    const string *ps;
+    char *pc = &c;
+    void *pv;
+        // pv = static_cast<void*>(ps); 是不行的，必须先const_cast去掉ps的cosnt属性
+    pv = static_cast<void *>(const_cast<string *>(ps));
     i = static_cast<int>(*pc);
     cout << "i:" << i << endl;
 }
 
-void test541(){
+void test541() {
     cout << "\n-------------------\n\ttest 5.4.1\n"
     << "-------------------" << endl;
     string currentInput, lastInput, maxRepeatInput;
     int repeatCnt = 1, maxRepeatCnt = 1;
     
-    while(cin>>currentInput){
-        if (currentInput == lastInput){
+    while (cin >> currentInput) {
+        if (currentInput == lastInput) {
             ++repeatCnt;
-        }else{
+        } else {
             if (repeatCnt > maxRepeatCnt) {
                 maxRepeatCnt = repeatCnt;
                 maxRepeatInput = lastInput;
@@ -507,25 +508,26 @@ void test541(){
         }
     }
     
-    if (repeatCnt == 1){
-        cout<<"no word repeat!"<< endl;
+    if (repeatCnt == 1) {
+        cout << "no word repeat!" << endl;
         return;
     }
     
-    if (repeatCnt > maxRepeatCnt){
+    if (repeatCnt > maxRepeatCnt) {
         maxRepeatCnt = repeatCnt;
         maxRepeatInput = currentInput;
     }
-    cout << "max repeat word is " << maxRepeatInput << ", repeat " << maxRepeatCnt << " times" << endl;
+    cout << "max repeat word is " << maxRepeatInput << ", repeat "
+    << maxRepeatCnt << " times" << endl;
 }
 
-void test552(){
+void test552() {
     cout << "\n-------------------\n\ttest 5.5.2\n"
     << "-------------------" << endl;
     
     string lastInput, currentInput;
-    while (cin >> currentInput){
-        if (currentInput[0] < 'A' || currentInput[0] > 'Z'){
+    while (cin >> currentInput) {
+        if (currentInput[0] < 'A' || currentInput[0] > 'Z') {
             continue;
         }
         if (lastInput == currentInput) {
@@ -535,157 +537,260 @@ void test552(){
         currentInput = "";
     }
     
-    if (currentInput == lastInput){
+    if (currentInput == lastInput) {
         cout << "repeat word: " << currentInput << endl;
-    }else{
-        cout << "no repeat words"<< endl;
+    } else {
+        cout << "no repeat words" << endl;
     }
 }
 
-void test563(){
+void test563() {
     cout << "\n-------------------\n\ttest 5.6.3\n"
     << "-------------------" << endl;
     int a, b;
     char tryAgain;
-    while (true){
-        try{
-            cout << "enter two int number for a and b to get val of a/b:" << endl;
+    while (true) {
+        try {
+            cout << "enter two int number for a and b to get val of a/b:"
+            << endl;
             cin >> a >> b;
-            if (b == 0){
+            if (b == 0) {
                 throw std::runtime_error("0 can not be divisor");
             }
-            cout << "a/b = " << a/b << endl;
+            cout << "a/b = " << a / b << endl;
             return;
-        }catch(std::runtime_error err){
+        } catch (std::runtime_error err) {
             cout << err.what() << endl;
             cout << "try again?(y/n)" << endl;
             cin >> tryAgain;
-            if (!tryAgain || tryAgain == 'n'){
+            if (!tryAgain || tryAgain == 'n') {
                 break;
             }
         }
     }
 }
 
-void test610(){
+void test610() {
     cout << "\n-------------------\n\ttest 6.1\n"
     << "-------------------" << endl;
-    try{
+    try {
         int a;
         cin >> a;
         cout << "abs(" << a << ") = " << abs(a) << endl;
         cout << "fact(" << a << ") = " << fact(a) << endl;
-    }catch(std::runtime_error err){
+    } catch (std::runtime_error err) {
         cout << err.what() << endl;
     }
 }
 
-void exchangeValue(int *a, int *b){
+void exchangeValue(int *a, int *b) {
     int tmp = *a;
     *a = *b;
     *b = tmp;
 }
 
-void test621(){
+void test621() {
     cout << "\n-------------------\n\ttest 6.2.1\n"
     << "-------------------" << endl;
     int a = 10, b = 100;
-    cout << "exchange the value of a("<<a<<"), b("<<b<<")" << endl;
+    cout << "exchange the value of a(" << a << "), b(" << b << ")" << endl;
     exchangeValue(&a, &b);
     cout << "a: " << a << ", b: " << b << endl;
 }
 
-bool hasUpperChar(const string& s){
-    for (auto itr = s.cbegin(); itr != s.cend(); ++itr){
-        if (*itr >= 'A' && *itr <= 'Z'){
+bool hasUpperChar(const string &s) {
+    for (auto itr = s.cbegin(); itr != s.cend(); ++itr) {
+        if (*itr >= 'A' && *itr <= 'Z') {
             return true;
         }
     }
     return false;
 }
 
-void toLower(string& s){
-    for (auto itr = s.begin(); itr != s.end(); ++itr){
-        if (*itr >= 'A' && *itr <= 'Z'){
+void toLower(string &s) {
+    for (auto itr = s.begin(); itr != s.end(); ++itr) {
+        if (*itr >= 'A' && *itr <= 'Z') {
             *itr = tolower(*itr);
         }
     }
 }
 
-void test623(){
+void test623() {
     cout << "\n-------------------\n\ttest 6.2.3\n"
     << "-------------------" << endl;
     string a = "Shen Haofang is a good boy!";
-    if (hasUpperChar(a)){
+    if (hasUpperChar(a)) {
         cout << "string a is \"" << a << "\", has upper char" << endl;
         toLower(a);
         cout << "after toLower(), it change to \"" << a << "\"" << endl;
     }
-    if (!hasUpperChar("shenhaofang")){
+    if (!hasUpperChar("shenhaofang")) {
         cout << "string \"shenhaofang\" has no upper char" << endl;
     }
 }
 
-void swapIntPointer(int * &a, int * &b){
-    int * c = a;
+void swapIntPointer(int *&a, int *&b) {
+    int *c = a;
     a = b;
     b = c;
 }
 
-void test624(){
+void test624() {
     cout << "\n-------------------\n\ttest 6.2.4\n"
     << "-------------------" << endl;
     int a = 1;
     int b = 2;
     int *ai = &a;
     int *bi = &b;
-    cout << "before swap: ai("<< ai << "):" << *ai << ", bi("<< bi << "):" << *bi << endl;
+    cout << "before swap: ai(" << ai << "):" << *ai << ", bi(" << bi
+    << "):" << *bi << endl;
     swapIntPointer(ai, bi);
-    cout << "after swap: ai("<< ai << "):" << *ai << ", bi("<< bi << "):" << *bi << endl;
+    cout << "after swap: ai(" << ai << "):" << *ai << ", bi(" << bi
+    << "):" << *bi << endl;
 }
 
-int sumInt(std::initializer_list<int> initList){
+int sumInt(std::initializer_list<int> initList) {
     int res = 0;
-    for (const int * it = initList.begin(); it != initList.end(); ++it){
+    for (const int *it = initList.begin(); it != initList.end(); ++it) {
         res += *it;
     }
     return res;
 }
 
-void test626(){
+void test626() {
     cout << "\n-------------------\n\ttest 6.2.6\n"
     << "-------------------" << endl;
-    cout << "sum of 1,2,3,5,6,8,10 is " << sumInt({1,2,3,5,6,8,10}) << endl;
+    cout << "sum of 1,2,3,5,6,8,10 is " << sumInt({1, 2, 3, 5, 6, 8, 10})
+    << endl;
 }
 
-string (*fillAndReturnStrArr(string (*strsToFill)[10]))[10]{
-    for(size_t idx=0; idx < 10; ++idx){
-        (*strsToFill)[idx] = std::to_string(idx);
+string (&fillAndReturnStrArr(string (&strsToFill)[10]))[10] {
+    for (size_t idx = 0; idx < 10; ++idx) {
+        strsToFill[idx] = std::to_string(idx);
     }
     return strsToFill;
 }
 
-void test633(){
+using strArr = string[10];
+
+strArr &fillAndReturnStrArr2(strArr &strsToFill) {
+    for (size_t idx = 0; idx < 10; ++idx) {
+        strsToFill[idx] = std::to_string(idx);
+    }
+    return strsToFill;
+}
+
+auto fillAndReturnStrArr3(string (&strsToFill)[10]) -> string (&)[10] {
+    for (size_t idx = 0; idx < 10; ++idx) {
+        strsToFill[idx] = std::to_string(idx);
+    }
+    return strsToFill;
+}
+
+string strs[10] = {};
+decltype(strs) &fillAndReturnStrArr4(string (&strToFill)[10]) {
+    for (size_t idx = 0; idx < 10; ++idx) {
+        strToFill[idx] = std::to_string(idx);
+    }
+    return strToFill;
+}
+
+int odd[] = {1, 3, 5, 7, 9};
+int even[] = {0, 2, 4, 6, 8};
+
+decltype(odd) &arrPtr(int i) { return (i % 2) ? odd : even; }
+
+void test633() {
     cout << "\n-------------------\n\ttest 6.3.3\n"
     << "-------------------" << endl;
-    string strs[10] = {};
-    string (*strToFill)[10] = &strs;
-    auto res = fillAndReturnStrArr(strToFill);
-    cout << "strToFill :"<< endl;
-    for (size_t idx = 0; idx < 10; ++idx){
-        cout << "(*strToFill)[" << idx << "]: " << (*strToFill)[idx] << endl;
-        cout << "(*res)[" << idx << "]: "  << (*res)[idx] << endl;
+    string strToFill[10] = {};
+        //    auto res = fillAndReturnStrArr(strToFill);
+        //    auto res = fillAndReturnStrArr2(strToFill);
+        //    auto res = fillAndReturnStrArr3(strToFill);
+    auto res = fillAndReturnStrArr4(strToFill);
+    cout << "strToFill :" << endl;
+    for (size_t idx = 0; idx < 10; ++idx) {
+        cout << "strToFill[" << idx << "]: " << strToFill[idx] << endl;
+        cout << "res[" << idx << "]: " << res[idx] << endl;
+    }
+    
+    auto oddR = arrPtr(1);
+    auto evenR = arrPtr(2);
+    for (size_t idx = 0; idx < 5; ++idx) {
+        cout << "oddR[" << idx << "]: " << oddR[idx] << endl;
+        cout << "evenR[" << idx << "]: " << evenR[idx] << endl;
     }
 }
 
-int main(int argc, char * args[]) {
+string make_plural(size_t ctr, const string &word,
+                   const string &endding = "s") {
+    return (ctr > 0) ? word + endding : word;
+}
+
+void test651() {
+    cout << "\n-------------------\n\ttest 6.5.1\n"
+    << "-------------------" << endl;
+    cout << make_plural(2, "success", "es") << endl;
+    cout << make_plural(2, "failure") << endl;
+}
+
+void printStrVectorRecursively(const vector<string> &sv,
+                               vector<string>::const_iterator itr) {
+#ifndef NDEBUG
+    cout << sv.size() << endl;
+#endif
+    if (itr == sv.cend()) {
+        return;
+    }
+    cout << *itr << endl;
+    printStrVectorRecursively(sv, itr + 1);
+}
+
+void test653() {
+    cout << "\n-------------------\n\ttest 6.5.3\n"
+    << "-------------------" << endl;
+    vector<string> testVector = {"I", "love", "U", "!"};
+    printStrVectorRecursively(testVector, testVector.cbegin());
+}
+
+int reLoadFunc(int a, int b = 5) { return a + b; }
+
+int reloadFunc(int a) { return ++a; }
+
+int CalTwoNum(int n, int m);
+int Plus(int n, int m) { return n + m; }
+int Minus(int n, int m) { return n - m; }
+int Multiple(int n, int m) { return n * m; }
+int Divide(int n, int m) {
+    if (m == 0) {
+        throw std::runtime_error("num can not be divided by 0!");
+    }
+    return n / m;
+}
+
+void test654() {
+    cout << "\n-------------------\n\ttest 6.5.4\n"
+    << "-------------------" << endl;
+    vector<decltype(CalTwoNum) *> calTwoNumFuncs;
+    calTwoNumFuncs = {Plus, Minus, Multiple, Divide};
+    int n = 2, m = 3;
+    try {
+        for (auto f : calTwoNumFuncs) {
+            cout << f(n, m) << endl;
+        }
+    } catch (std::runtime_error err) {
+        cout << err.what() << endl;
+    }
+}
+
+int main(int argc, char *args[]) {
     string argStr;
-    for (int i = 1; i < argc; ++i){
-        if (i > 1){
+    for (int i = 1; i < argc; ++i) {
+        if (i > 1) {
             argStr.push_back(',');
             argStr.push_back(' ');
         }
-        for (char * c = args[i]; *c != '\0'; ++c){
+        for (char *c = args[i]; *c != '\0'; ++c) {
             argStr.push_back(*c);
         }
     }
@@ -720,20 +825,23 @@ int main(int argc, char * args[]) {
         //    d = 42;
         //    e = 42;
         //    g = 42;
-    int * const cai = &i;
-    // int * const cai = &ci; ❌cai没有底层const，&ci有底层const，不能用来初始化cai
-    const int * cbi = &r;
-    const int * const cci = cai; // cai只有顶层const没有底层const，但是cci有底层const，无论cai有没有底层const都可以用来初始化cci
+    int *const cai = &i;
+        // int * const cai = &ci;
+        // ❌cai没有底层const，&ci有底层const，不能用来初始化cai
+    const int *cbi = &r;
+    const int *const cci =
+    cai;  // cai只有顶层const没有底层const，但是cci有底层const，无论cai有没有底层const都可以用来初始化cci
     
     *cai = 2;
-    // *cbi = 2 ❌，cbi指向const常量（底层const）不能改其指向变量的值
-    // cai = cbi ❌，cai本身是const（顶层const）常量不能改
+        // *cbi = 2 ❌，cbi指向const常量（底层const）不能改其指向变量的值
+        // cai = cbi ❌，cai本身是const（顶层const）常量不能改
     cbi = cai;
-    // cci = cai; ❌，cci有顶层const，不能改
-    // cci = cbi; ❌，cci有顶层const，不能改
-    // *cci = *cai; ❌，cci也有底层const，不能改
+        // cci = cai; ❌，cci有顶层const，不能改
+        // cci = cbi; ❌，cci有顶层const，不能改
+        // *cci = *cai; ❌，cci也有底层const，不能改
     
-    cout << *cai << "(" << cai << "), " << *cbi << "(" << cbi << "), " << *cci << "(" << cci << ")" << endl;
+    cout << *cai << "(" << cai << "), " << *cbi << "(" << cbi << "), " << *cci
+    << "(" << cci << ")" << endl;
     
     cout << "-------------------" << endl;
     
@@ -741,8 +849,8 @@ int main(int argc, char * args[]) {
     int *p = x1;
     cout << sizeof(p) << endl;
     cout << sizeof(int) << endl;
-    cout << sizeof(p)/sizeof(*p) << endl;
-    cout << sizeof(x1)/sizeof(*p) << endl;
+    cout << sizeof(p) / sizeof(*p) << endl;
+    cout << sizeof(x1) / sizeof(*p) << endl;
     
         //    int pi = 3;
         //    switch (1.4){ // 必须为整形
@@ -770,14 +878,18 @@ int main(int argc, char * args[]) {
     test360();
     test470();
     test4113();
-//    test541();
-//    test552();
-//    test563();
-//    test610();
+        //    test541();
+        //    test552();
+        //    test563();
+        //    test610();
     test621();
     test623();
     test624();
     test626();
     test633();
+    test651();
+    test653();
+    cout << reloadFunc(1) << endl;
+    test654();
     return 0;
 }
