@@ -12,6 +12,7 @@
 
 #include "fact.hpp"
 #include "sale_data.h"
+#include "sale_data_map.h"
 
 using std::begin;
 using std::cin;
@@ -783,6 +784,69 @@ void test654() {
     }
 }
 
+bool printSaleDataMap(const std::string &key, const SalesData &item){
+    cout << "key: " << key << endl;
+    printSaleData(cout, item);
+    return true;
+}
+
+void testFreeAndDel(SalesDataKV ** valAssigned){
+    for (size_t i = 0; i < 5; ++i) {
+        delete *(valAssigned+i);
+        *(valAssigned+i) = nullptr;
+    }
+    free(valAssigned);
+}
+
+void InputTips(std::ostream &outStream){
+    outStream << "please input bookNo, unitsSold, revenue one by one:" << std::endl;
+}
+
+void test711() {
+    cout << "\n-------------------\n\ttest 7.1.1\n"
+    << "-------------------" << endl;
+    
+    SalesDataKV **valArr = (SalesDataKV **)malloc(5*sizeof(SalesDataKV *));
+    for (size_t i = 0; i < 5; ++i){
+        SalesDataKV *val = new SalesDataKV;
+        cout << (valArr+i) << ":" << val << endl;
+        *(valArr+i) = val;
+    }
+    cout << "-------------------" << endl;
+    SalesDataKV ** valAssigned = valArr;
+    valArr = (SalesDataKV **)malloc(5*sizeof(SalesDataKV *));
+    for (size_t i = 0; i < 5; ++i){
+        *(valArr+i) = nullptr;
+    }
+    for (size_t i = 0; i < 5; ++i) {
+        cout << (valAssigned+i) << ":" << *(valAssigned+i) << endl;
+    }
+//    for (size_t i = 0; i < 5; ++i) {
+//        delete *(valAssigned+i);
+//        *(valAssigned+i) = nullptr;
+//    }
+//    free(valAssigned);
+    
+    testFreeAndDel(valAssigned);
+    
+    SalesDataMap map = SalesDataMap{};
+    InputTips(cout);
+//    201-1-x 10 100
+//    201-2-x 12 180
+//    202-5-x 5 50
+//    202-5-x 10 90
+//    201-1-x 100 1800
+    for (SalesData item = SalesData{}; ReadSalesData(cin, item) && item.BookNo != ""; SalesDataMapStore(&map, item.BookNo, item)){
+        auto getRes = SalesDataMapGet(&map, item.BookNo);
+        if (getRes.Exist) {
+            item = CombineSaleData(item, getRes.Val);
+        }
+        InputTips(cout);
+    }
+    ForeachSalesDataMap(&map, printSaleDataMap);
+    FreeSaleDataMapVal(&map);
+}
+
 int main(int argc, char *args[]) {
     string argStr;
     for (int i = 1; i < argc; ++i) {
@@ -891,5 +955,6 @@ int main(int argc, char *args[]) {
     test653();
     cout << reloadFunc(1) << endl;
     test654();
+    test711();
     return 0;
 }

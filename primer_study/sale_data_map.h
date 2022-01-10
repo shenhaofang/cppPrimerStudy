@@ -5,46 +5,67 @@
     //  Created by 申皓方 on 2021/12/29.
     //
 
-#ifndef shf_string_map_h
-#define shf_string_map_h
+#ifndef sale_data_map_h
+#define sale_data_map_h
 
-struct ShfStrMap {
-    int charUnitLen;
-    int length;
-    int arrLen;
-    int *valArr;
+#include <vector>
+#include "sale_data.h"
+
+struct SalesDataKV {
+    SalesData val;
+    std::string key;
 };
 
-int CharLen(char c) {
-    int len = 1;
-    if (c == 0) {
-        return len;
+struct SalesDataMap {
+    int keyWidth = 0;
+    size_t length = 0;
+    SalesDataKV *valArr = nullptr;
+    std::vector<size_t> valIdx = {};
+};
+
+struct SalesDataGet {
+    bool Exist;
+    SalesData Val;
+};
+
+inline int BitWidth(size_t c) {
+    int length = 1;
+    for (size_t cl = c >> 1; cl > 0; cl >>= 1){
+        ++ length;
     }
-    for (c >>= 1; c > 0; c >>= 1, ++len)
-        ;
-    return len;
+    return length;
 }
 
-int maxUnitLen(const std::string &key) {
-    int charUnitLen = 1;
+const int maxWidth = BitWidth(SIZE_T_MAX) - 1;
+
+inline size_t calKeyFullIdx(const std::string &key){
+    size_t res = 0;
     for (char kv : key) {
-        int charLen = CharLen(kv);
-        if (charUnitLen < charLen) {
-            charUnitLen = charLen;
+        size_t cWidth = BitWidth(kv);
+        if (res >= (SIZE_T_MAX >> cWidth) - 1){
+            break;
         }
-    }
-    return charUnitLen;
-}
-
-int calKeyIdx(const std::string &key, int charUnitLen) {
-    int res = 0;
-    for (char kv : key) {
+        res <<= cWidth;
         res |= kv;
-        res <<= charUnitLen;
     }
     return res;
 }
 
-void store(ShfStrMap &strMap, const std::string &key, 
+inline size_t calKeyIdx(size_t keyFullIdx, int keyWidth) {
+    return keyFullIdx & ((1 << keyWidth) - 1);
+}
 
-#endif /* shf_string_map_h */
+void setSalesDataMapKV(SalesDataMap &saleDataMap, SalesDataKV * kv);
+
+void FreeSaleDataMapVal(SalesDataMap * const saleDataMap);
+
+void refreshSalesDataMap(SalesDataMap * const saleDataMap);
+
+void setSalesDataMapKV(SalesDataMap * const saleDataMap, SalesDataKV * kv);
+
+void SalesDataMapStore(SalesDataMap * const saleDataMap, const std::string &key, const SalesData &saleData);
+
+SalesDataGet SalesDataMapGet(SalesDataMap * const saleDataMap, const std::string &key);
+
+bool ForeachSalesDataMap(SalesDataMap * const saleDataMap, bool (* eachFunc)(const std::string &key, const SalesData &item));
+#endif /* sale_data_map_h */
