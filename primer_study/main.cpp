@@ -843,6 +843,10 @@ void test711() {
         }
         InputTips(cout);
     }
+    SalesDataMapStore(&map, "test1", SalesData{"test1", 1, 1, 1});
+    SalesDataMapStore(&map, "test2", SalesData{"test2", 2, 2, 1});
+    SalesDataMapStore(&map, "test3", SalesData{"test3", 3, 3, 1});
+    SalesDataMapDelByKey(&map, "test2");
     ForeachSalesDataMap(&map, printSaleDataMap);
     FreeSaleDataMapVal(&map);
 }

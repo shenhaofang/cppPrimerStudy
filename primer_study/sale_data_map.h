@@ -67,5 +67,7 @@ void SalesDataMapStore(SalesDataMap * const saleDataMap, const std::string &key,
 
 SalesDataGet SalesDataMapGet(SalesDataMap * const saleDataMap, const std::string &key);
 
+void SalesDataMapDelByKey(SalesDataMap * const saleDataMap, const std::string &key);
+
 bool ForeachSalesDataMap(SalesDataMap * const saleDataMap, bool (* eachFunc)(const std::string &key, const SalesData &item));
 #endif /* sale_data_map_h */

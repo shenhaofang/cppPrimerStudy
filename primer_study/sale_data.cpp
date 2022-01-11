@@ -10,8 +10,9 @@
 
 #include "sale_data.h"
 
-bool ReadSalesData(std::istream &inputStream,  SalesData &data){
+bool ReadSalesData(std::istream &inputStream, SalesData &data){
     if (inputStream >> data.BookNo >> data.UnitsSold >> data.Revenue){
+        data.AvgPrice = data.Revenue/data.UnitsSold;
         return true;
     }
     return false;

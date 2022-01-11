@@ -109,6 +109,22 @@ SalesDataGet SalesDataMapGet(SalesDataMap * const saleDataMap, const std::string
     return res;
 }
 
+void SalesDataMapDelByKey(SalesDataMap * const saleDataMap, const std::string &key){
+    auto getRes = SalesDataMapGet(saleDataMap, key);
+    if (!getRes.Exist) {
+        return;
+    }
+    size_t fullIdx = calKeyFullIdx(key);
+    size_t idx = calKeyIdx(fullIdx, saleDataMap->keyWidth);
+    (saleDataMap->valArr+idx)->key = "";
+    for (std::vector<size_t>::const_iterator itr = saleDataMap->valIdx.cbegin(); itr != saleDataMap->valIdx.cend(); ++itr){
+        if (*itr == idx){
+            saleDataMap->valIdx.erase(itr);
+        }
+    }
+    -- saleDataMap->length;
+}
+
 bool ForeachSalesDataMap(SalesDataMap * const saleDataMap, bool (* eachFunc)(const std::string &key, const SalesData &item)){
     for (auto bitr = saleDataMap->valIdx.cbegin(); bitr != saleDataMap->valIdx.cend(); ++bitr) {
         if (!eachFunc((saleDataMap->valArr+(*bitr))->key, (saleDataMap->valArr+(*bitr))->val)){
