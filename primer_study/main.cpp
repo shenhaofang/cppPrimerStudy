@@ -13,6 +13,7 @@
 #include "fact.hpp"
 #include "sale_data.h"
 #include "sale_data_map.h"
+#include "Person.hpp"
 
 using std::begin;
 using std::cin;
@@ -851,6 +852,33 @@ void test711() {
     FreeSaleDataMapVal(&map);
 }
 
+bool printSalesDataKV (const std::string &key, const SalesData &item){
+    cout << "key: " << key << "; ";
+    printSalesData(cout, item) << endl;
+    return true;
+}
+
+void test712() {
+    cout << "\n-------------------\n\ttest 7.1.2\n"
+    << "-------------------" << endl;
+//    SalesDataMap map = SalesDataMap{};
+//    InputTips(cout);
+//    for (SalesData item = SalesData{}; readSalesData(cin, item) && item.Isbin() != ""; SalesDataMapStore(&map, item.Isbin(), item)){
+//        auto getRes = SalesDataMapGet(&map, item.Isbin());
+//        if (getRes.Exist) {
+//            item.Combine(getRes.Val);
+//        }
+//        InputTips(cout);
+//    }
+//    ForeachSalesDataMap(&map, printSalesDataKV);
+//    FreeSaleDataMapVal(&map);
+    
+    Person p;
+    cout << "input person name and addr:" << endl;
+    ReadPerson(cin, p);
+    PrintPerson(cout, p) << endl;
+}
+
 int main(int argc, char *args[]) {
     string argStr;
     for (int i = 1; i < argc; ++i) {
@@ -959,6 +987,8 @@ int main(int argc, char *args[]) {
     test653();
     cout << reloadFunc(1) << endl;
     test654();
-    test711();
+//    test711();
+    test712();
+    
     return 0;
 }
