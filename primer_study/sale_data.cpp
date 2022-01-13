@@ -43,14 +43,16 @@ SalesData CombineSaleData(const SalesData &item, const SalesData &itemToAdd){
     if (item.BookNo == "" || itemToAdd.BookNo != item.BookNo){
         return item;
     }
-    SalesData res = SalesData{
-        .BookNo = item.BookNo
-    };
+    SalesData res = SalesData(item.BookNo);
     res.UnitsSold = item.UnitsSold + itemToAdd.UnitsSold;
     res.Revenue = item.Revenue + itemToAdd.Revenue;
     res.AvgPrice = res.Revenue/res.UnitsSold;
     return res;
 }
+
+//SalesData::SalesData(std::istream &is) {
+//    readSalesData(is, *this);
+//}
 
 SalesData &SalesData::Combine(const SalesData &item){
     if (BookNo == "" || BookNo == item.BookNo){

@@ -18,8 +18,23 @@ struct SalesData {
     double AvgPrice = 0.0;
     std::string Isbin(){
         return BookNo;
-    };
+    }
     SalesData &Combine(const SalesData &item);
+    SalesData() = default;
+    SalesData(const std::string &bookNo): BookNo(bookNo){}
+    SalesData(const std::string &bookNo, double price, unsigned num): BookNo(bookNo), AvgPrice(price), UnitsSold(num), Revenue(price * num) {}
+    SalesData(std::istream &is){
+        if (!(is >> BookNo)){
+            return;
+        }
+        if (BookNo == "-") {
+            is.clear();
+            is.sync();
+            return;
+        }
+        is >> AvgPrice >> UnitsSold;
+        Revenue = AvgPrice * UnitsSold;
+    };
 };
 
 bool ReadSalesData(std::istream &inputStream,  SalesData &data);

@@ -844,9 +844,9 @@ void test711() {
         }
         InputTips(cout);
     }
-    SalesDataMapStore(&map, "test1", SalesData{"test1", 1, 1, 1});
-    SalesDataMapStore(&map, "test2", SalesData{"test2", 2, 2, 1});
-    SalesDataMapStore(&map, "test3", SalesData{"test3", 3, 3, 1});
+    SalesDataMapStore(&map, "test1", SalesData("test1", 1, 1));
+    SalesDataMapStore(&map, "test2", SalesData("test2", 1, 2));
+    SalesDataMapStore(&map, "test3", SalesData{"test3", 1, 3});
     SalesDataMapDelByKey(&map, "test2");
     ForeachSalesDataMap(&map, printSaleDataMap);
     FreeSaleDataMapVal(&map);
@@ -859,24 +859,87 @@ bool printSalesDataKV (const std::string &key, const SalesData &item){
 }
 
 void test712() {
-    cout << "\n-------------------\n\ttest 7.1.2\n"
+    cout << "\n-------------------\n\ttest 7.1.2 ~ 7.1.3 (7.6~7.7)\n"
     << "-------------------" << endl;
-//    SalesDataMap map = SalesDataMap{};
-//    InputTips(cout);
-//    for (SalesData item = SalesData{}; readSalesData(cin, item) && item.Isbin() != ""; SalesDataMapStore(&map, item.Isbin(), item)){
-//        auto getRes = SalesDataMapGet(&map, item.Isbin());
-//        if (getRes.Exist) {
-//            item.Combine(getRes.Val);
-//        }
-//        InputTips(cout);
-//    }
-//    ForeachSalesDataMap(&map, printSalesDataKV);
-//    FreeSaleDataMapVal(&map);
+    SalesDataMap map = SalesDataMap{};
+    InputTips(cout);
+    for (SalesData item = SalesData{}; readSalesData(cin, item) && item.Isbin() != ""; SalesDataMapStore(&map, item.Isbin(), item)){
+        auto getRes = SalesDataMapGet(&map, item.Isbin());
+        if (getRes.Exist) {
+            item.Combine(getRes.Val);
+        }
+        InputTips(cout);
+    }
+    ForeachSalesDataMap(&map, printSalesDataKV);
+    FreeSaleDataMapVal(&map);
+    
+    
+}
+
+void test7_10() {
+    cout << "\n-------------------\n\ttest 7.1.3 (7.10)\n"
+    << "-------------------" << endl;
     
     Person p;
     cout << "input person name and addr:" << endl;
     ReadPerson(cin, p);
     PrintPerson(cout, p) << endl;
+}
+
+struct SalesDataKVPrinter {
+    static SalesData AddItem;
+    SalesDataKVPrinter(double price, unsigned unitsSold){
+        AddItem.AvgPrice = price;
+        AddItem.UnitsSold = unitsSold;
+        AddItem.Revenue = price * unitsSold;
+    }
+    static bool PrintKVFunc(const std::string &key, const SalesData &item) {
+        cout << "key: " << key << endl;
+        cout << "\tbefore add\n\t";
+        printSalesData(cout, item) << endl;
+        AddItem.BookNo = key;
+        cout << "\tafter add: ";
+        printSalesData(cout, AddItem) << endl;
+        auto sumRes = SalesData(AddItem.Isbin(), AddItem.AvgPrice, AddItem.UnitsSold);
+        sumRes.Combine(item);
+        cout << "\t";
+        printSalesData(cout, sumRes) << endl;
+        return true;
+    }
+};
+
+SalesData SalesDataKVPrinter::AddItem = SalesData();
+
+// auto addAndGenPrintKVFunc(double price, unsigned unitsSold) -> bool (*) (const std::string &key, const SalesData &item)
+bool (*addAndGenPrintKVFunc(double price, unsigned unitsSold))(const std::string &key, const SalesData &item){
+    auto printer = SalesDataKVPrinter(price, unitsSold);
+    return printer.PrintKVFunc;
+}
+
+void test714(){
+    cout << "\n-------------------\n\ttest 7.1.4\n"
+    << "-------------------" << endl;
+    
+    //    201-1-x 10 10
+    //    201-2-x 12 15
+    //    202-5-x 100 2
+    //    202-5-x 90 90
+    //    201-1-x 8 100
+    SalesDataMap map = SalesDataMap{};
+    while(true){
+        cout << "please input bookNo, price, unitsSold one by one:" << std::endl;
+        SalesData item = SalesData(cin);
+        if (item.Isbin() == "-" || cin.eof()) {
+            break;
+        }
+        auto getRes = SalesDataMapGet(&map, item.Isbin());
+        if (getRes.Exist) {
+            item.Combine(getRes.Val);
+        }
+        SalesDataMapStore(&map, item.Isbin(), item);
+    }
+    ForeachSalesDataMap(&map, addAndGenPrintKVFunc(100, 10));
+    FreeSaleDataMapVal(&map);
 }
 
 int main(int argc, char *args[]) {
@@ -988,7 +1051,8 @@ int main(int argc, char *args[]) {
     cout << reloadFunc(1) << endl;
     test654();
 //    test711();
-    test712();
-    
+//    test712();
+//    test7_10();
+    test714();
     return 0;
 }
