@@ -14,6 +14,8 @@
 #include "sale_data.h"
 #include "sale_data_map.h"
 #include "Person.hpp"
+#include "screen.hpp"
+#include "window_mgr.hpp"
 
 using std::begin;
 using std::cin;
@@ -837,8 +839,8 @@ void test711() {
 //    202-5-x 5 50
 //    202-5-x 10 90
 //    201-1-x 100 1800
-    for (SalesData item = SalesData{}; ReadSalesData(cin, item) && item.BookNo != ""; SalesDataMapStore(&map, item.BookNo, item)){
-        auto getRes = SalesDataMapGet(&map, item.BookNo);
+    for (SalesData item = SalesData{}; ReadSalesData(cin, item) && item.Isbin() != ""; SalesDataMapStore(&map, item.Isbin(), item)){
+        auto getRes = SalesDataMapGet(&map, item.Isbin());
         if (getRes.Exist) {
             item = CombineSaleData(item, getRes.Val);
         }
@@ -889,18 +891,15 @@ void test7_10() {
 struct SalesDataKVPrinter {
     static SalesData AddItem;
     SalesDataKVPrinter(double price, unsigned unitsSold){
-        AddItem.AvgPrice = price;
-        AddItem.UnitsSold = unitsSold;
-        AddItem.Revenue = price * unitsSold;
+        AddItem = SalesData("", price, unitsSold);
     }
     static bool PrintKVFunc(const std::string &key, const SalesData &item) {
         cout << "key: " << key << endl;
         cout << "\tbefore add\n\t";
         printSalesData(cout, item) << endl;
-        AddItem.BookNo = key;
+        auto sumRes = SalesData(key, AddItem.GetAvgPrice(), AddItem.GetUnitsSold());
         cout << "\tafter add: ";
-        printSalesData(cout, AddItem) << endl;
-        auto sumRes = SalesData(AddItem.Isbin(), AddItem.AvgPrice, AddItem.UnitsSold);
+        printSalesData(cout, sumRes) << endl;
         sumRes.Combine(item);
         cout << "\t";
         printSalesData(cout, sumRes) << endl;
@@ -941,6 +940,69 @@ void test714(){
     ForeachSalesDataMap(&map, addAndGenPrintKVFunc(100, 10));
     FreeSaleDataMapVal(&map);
 }
+
+void test732(){
+    cout << "\n-------------------\n\ttest 7.3.2\n"
+    << "-------------------" << endl;
+    Screen s(5, 5, 'x');
+    Screen myScreen = s;
+    myScreen.Move(4, 0).Set('#').Display(cout);
+    cout << "\n";
+    myScreen.Display(cout);
+    cout << "\n";
+    // 若move、set返回的是Screen而不是Screen &，则输出的第一行中有#，第二行中没有
+}
+
+// test 7.3.3
+class Y;
+
+class X {
+    Y *y;
+};
+
+class Y {
+    X x;
+};
+
+void test734(){
+    cout << "\n-------------------\n\ttest 7.3.4\n"
+    << "-------------------" << endl;
+    WindowMgr windowMgr;
+    windowMgr.AddScreen(Screen(5, 5, 'x'));
+    auto &s = windowMgr.GetScreen(0);
+    s.Display(cout);
+    cout << endl;
+    windowMgr.Clear(0);
+    s.Display(cout);
+    cout << endl;
+}
+
+void test752(){
+    cout << "\n-------------------\n\ttest 7.5.2\n"
+    << "-------------------" << endl;
+    cout << "-------------------SalesData();-------------------" << endl;
+    SalesData s = SalesData();
+    cout << "-------------------SalesData(\"test\");-------------------" << endl;
+    s = SalesData("test");
+    cout << "-------------------SalesData(\"test\", 10, 20);-------------------" << endl;
+    s = SalesData("test", 10, 20);
+//    cout << "-------------------SalesData(cin);-------------------" << endl;
+//    s = SalesData(cin);
+}
+
+class NoDefault{
+private:
+    int i;
+public:
+    NoDefault(int a): i(a){}
+};
+
+class C {
+private:
+    NoDefault s;
+public:
+    C():s(NoDefault(0)){}
+};
 
 int main(int argc, char *args[]) {
     string argStr;
@@ -1053,6 +1115,9 @@ int main(int argc, char *args[]) {
 //    test711();
 //    test712();
 //    test7_10();
-    test714();
+//    test714();
+    test732();
+    test734();
+    test752();
     return 0;
 }
